@@ -28,3 +28,20 @@ $ cd src
 $ python main.py 
 ```
 
+## Instructions to compare with TensorFlow
+
+### Requirements
+The authors indicated the following dependencies:
+The code has been tested running under Python 3.5.2, with the following packages installed (along with their dependencies):
+- tensorflow == 2.1.0
+- spektral ==1.0.3
+- numpy == 1.18.2
+- pandas == 0.23.4
+- sklearn == 0.19.1
+However I have not tested it with their settings, and it might be deprecated
+### Training
+```
+$ cd src-tf
+$ python main.py
+```
+
