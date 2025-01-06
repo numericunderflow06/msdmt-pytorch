@@ -22,7 +22,18 @@ On the other hand, MSDMT considers the significant correlation between the playe
   - `model.py`: the code for model.
   - `main.py`: the code for pipeline.
 ## Requirements
-TODO
+Core libraries: 
+- numpy 
+- pandas
+- scikit-learn
+- networkx
+- torch
+Other libraries:
+- torch-scatter
+- torch-sparse
+- torch-cluster
+- torch-spline-conv
+- torch-geometric
 
 ## Training
 ```
