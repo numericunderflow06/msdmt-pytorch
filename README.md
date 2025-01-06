@@ -2,7 +2,7 @@
 
 This repo is the pytorch implementation of Multi-source Data Multi-task Learning for Profiling Players in Online Games (MSDMT) [[PDF](https://ieee-cog.org/2020/papers/paper_45.pdf)].
 
-It is adapted from the TF2.0 implementation [[code] (https://github.com/fuxiAIlab/MSDMT)]
+It is adapted from the TF2.0 implementation (https://github.com/fuxiAIlab/MSDMT)
 
 The description of the authors:
 MSDMT is a novel Multi-source Data Multi-task Learning approach for profiling players with both player churn and payment prediction in online games. 
