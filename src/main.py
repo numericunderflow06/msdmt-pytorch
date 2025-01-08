@@ -3,7 +3,7 @@ import shutil
 
 import networkx as nx
 import numpy as np
-import pandas as pd
+import pandas as pdx
 import torch
 import torch.nn as nn
 from sklearn.model_selection import StratifiedKFold, train_test_split
