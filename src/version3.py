@@ -31,7 +31,7 @@ behavior_dim = 32
 network_dim = 32
 dropout = 0.5
 
-def data_process(timestep=10, maxlen=64):
+def data_process(timestep=10, maxlen=84):
     df_U = pd.read_csv('../data/sample_data_player_portrait.csv')
     df_B = pd.read_csv('../data/sample_data_behavior_sequence.csv')
     df_G = pd.read_csv('../data/sample_data_social_network.csv')
@@ -46,7 +46,7 @@ def data_process(timestep=10, maxlen=64):
     leftover = B_seq.numel() % (timestep * maxlen)
     if leftover > 0:
         B_seq = B_seq[:-leftover]
-    B_seq = B_seq.reshape(-1, timestep, maxlen)
+    B_seq = B_seq.reshape(-1, timestep, 84)
     G = nx.from_pandas_edgelist(df=df_G, source='src_uid', target='dst_uid', edge_attr=['weight'])
     A = nx.adjacency_matrix(G)
     edge_index, edge_weight = from_scipy_sparse_matrix(A)
@@ -177,7 +177,7 @@ for train_index, test_index in kfold.split(U, y1):
     for epoch_i in range(1, epochs + 1):
         model.train()
         optimizer.zero_grad()
-        out1, out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev)
+        out1, out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev.float())
         loss_churn = F.binary_cross_entropy(out1[mask_train], y1_torch_dev[mask_train])
         loss_payment = F.mse_loss(out2[mask_train], y2_torch_dev[mask_train])
         loss = alpha*loss_churn + beta*loss_payment
@@ -185,7 +185,7 @@ for train_index, test_index in kfold.split(U, y1):
         optimizer.step()
         model.eval()
         with torch.no_grad():
-            val_out1, val_out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev)
+            val_out1, val_out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev.float())
             val_loss_churn = F.binary_cross_entropy(val_out1[mask_val], y1_torch_dev[mask_val])
             val_loss_payment = F.mse_loss(val_out2[mask_val], y2_torch_dev[mask_val])
             val_loss = alpha*val_loss_churn + beta*val_loss_payment
@@ -205,7 +205,7 @@ for train_index, test_index in kfold.split(U, y1):
         model.load_state_dict(best_state_dict)
     model.eval()
     with torch.no_grad():
-        test_out1, test_out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev)
+        test_out1, test_out2 = model(U_torch_dev, B_torch_dev, edge_index_dev, edge_weight_dev.float())
         test_loss_churn = F.binary_cross_entropy(test_out1[mask_test], y1_torch_dev[mask_test])
         test_loss_payment = F.mse_loss(test_out2[mask_test], y2_torch_dev[mask_test])
         test_loss = alpha*test_loss_churn + beta*test_loss_payment
